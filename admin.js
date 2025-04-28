@@ -99,9 +99,6 @@ function resetVotes() {
                 'Bubble': 0,
                 'Webflow': 0,
                 'Adalo': 0,
-                'Glide': 0,
-                'Softr': 0,
-                'Wix': 0,
                 'Others': 0
             }
         };
