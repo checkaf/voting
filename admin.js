@@ -97,8 +97,9 @@ function resetVotes() {
             teams: {},
             platforms: {
                 'Bubble': 0,
-                'Webflow': 0,
+                'Power Apps': 0,
                 'Adalo': 0,
+                'App sheet': 0,
                 'Others': 0
             }
         };
