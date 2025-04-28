@@ -1,13 +1,51 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Admin Panel</title>
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+    <style>
+        #resultsChart {
+            width: 100%;
+            height: 400px;
+        }
+    </style>
+</head>
+<body>
+
+<canvas id="resultsChart"></canvas>
+<div id="total-votes">Total votes: 0</div>
+<button id="reset-votes">Reset Votes</button>
+
+<script>
 // Chart configuration
 let chart;
 const platforms = ['Bubble', 'Power Apps', 'Adalo', 'App Sheet', 'Others'];
-const colors = [
-    '#4a6bff',
-    '#6c63ff',
-    '#ff6b6b',
-    '#4ecdc4',
-    '#ffd166'
-];
+const colors = ['#4a6bff', '#6c63ff', '#ff6b6b', '#4ecdc4', '#ffd166'];
+
+// Register custom plugin for percentage labels
+Chart.register({
+    id: 'percentageLabels',
+    afterDatasetsDraw(chart) {
+        const { ctx } = chart;
+        ctx.save();
+        ctx.textAlign = 'left';
+        ctx.textBaseline = 'middle';
+        ctx.font = '12px Arial';
+
+        chart.data.datasets.forEach((dataset, i) => {
+            const meta = chart.getDatasetMeta(i);
+            meta.data.forEach((bar, index) => {
+                const data = dataset.data[index];
+                const total = dataset.data.reduce((a, b) => a + b, 0);
+                const percentage = total > 0 ? (data / total * 100).toFixed(1) + '%' : '0%';
+                ctx.fillText(percentage, bar.x + 10, bar.y);
+            });
+        });
+
+        ctx.restore();
+    }
+});
 
 // Initialize chart
 function initChart() {
@@ -27,10 +65,10 @@ function initChart() {
         options: {
             responsive: true,
             maintainAspectRatio: false,
-            indexAxis: 'y',  // Make it a horizontal bar chart
+            indexAxis: 'y', // horizontal bar
             plugins: {
                 legend: {
-                    display: false  // Hide legend since we don't need it for a single dataset
+                    display: false
                 },
                 tooltip: {
                     callbacks: {
@@ -45,33 +83,12 @@ function initChart() {
             },
             scales: {
                 x: {
-                    grid: {
-                        display: false
-                    },
-                    ticks: {
-                        precision: 0  // Show only whole numbers
-                    }
+                    grid: { display: false },
+                    ticks: { precision: 0 }
                 },
                 y: {
-                    grid: {
-                        display: false
-                    }
+                    grid: { display: false }
                 }
-            },
-            afterDraw: function (chart) {
-                var ctx = chart.ctx;
-                ctx.textAlign = 'left';
-                ctx.textBaseline = 'middle';
-                ctx.font = '12px Arial';
-
-                chart.data.datasets.forEach(function (dataset) {
-                    chart.getDatasetMeta(0).data.forEach(function (bar, index) {
-                        var data = dataset.data[index];
-                        var total = dataset.data.reduce((a, b) => a + b, 0);
-                        var percentage = total > 0 ? (data / total * 100).toFixed(1) + '%' : '0%';
-                        ctx.fillText(percentage, bar.x + 10, bar.y);
-                    });
-                });
             }
         }
     });
@@ -97,7 +114,7 @@ function resetVotes() {
                 'Bubble': 0,
                 'Power Apps': 0,
                 'Adalo': 0,
-                'App sheet': 0,
+                'App Sheet': 0, // Corrected "App Sheet"
                 'Others': 0
             }
         };
@@ -122,13 +139,10 @@ function fetchVotes() {
 
 // Initialize the admin page
 document.addEventListener('DOMContentLoaded', () => {
-    // Check if admin is logged in
     checkAdminLogin();
-
     initChart();
     fetchVotes();
 
-    // Set up reset button
     const resetButton = document.getElementById('reset-votes');
     if (resetButton) {
         resetButton.addEventListener('click', resetVotes);
@@ -136,4 +150,8 @@ document.addEventListener('DOMContentLoaded', () => {
 
     // Fetch votes every 30 seconds
     setInterval(fetchVotes, 30000);
-}); 
+});
+</script>
+
+</body>
+</html>
