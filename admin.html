@@ -1,0 +1,33 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Admin - No-Code Platform Poll</title>
+    <link rel="stylesheet" href="styles.css">
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+</head>
+
+<body>
+    <div class="container">
+        <div class="admin-header">
+            <h1>Admin Dashboard</h1>
+            <div class="admin-controls">
+                <button id="reset-votes" class="reset-btn">Reset All Votes</button>
+                <a href="/" class="back-btn">Back to Voting</a>
+            </div>
+        </div>
+
+        <div class="results-container">
+            <h2>Live Results</h2>
+            <div class="chart-container">
+                <canvas id="resultsChart"></canvas>
+            </div>
+            <p id="total-votes" class="total-votes">Total votes: 0</p>
+        </div>
+    </div>
+    <script src="admin.js"></script>
+</body>
+
+</html>
