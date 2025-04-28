@@ -1,14 +1,12 @@
 // Chart configuration
 let chart;
-const platforms = ['Bubble', 'Webflow', 'Adalo', 'Glide', 'Softr', 'Wix', 'Others'];
+const platforms = ['Bubble', 'Power Apps', 'Adalo', 'App Sheet', 'Others'];
 const colors = [
     '#4a6bff',
     '#6c63ff',
     '#ff6b6b',
     '#4ecdc4',
-    '#ffd166',
-    '#06d6a0',
-    '#ef476f'
+    '#ffd166'
 ];
 
 // Initialize chart
